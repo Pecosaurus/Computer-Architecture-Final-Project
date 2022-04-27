@@ -1,0 +1,21 @@
+`timescale 1ns/1ps
+
+module immgen_tb;
+//	reg clk;
+	reg [31:0] instr;
+	reg [1:0] sel;
+	wire [31:0] immout;
+	
+immgen dut (.instr(instr), .sel(sel), .immout(immout));
+
+initial begin
+	#10 instr = 32'b00000010010100000000001110000000; // 0000001 00101 00000 000 00111 0000000
+	#10 sel = 2'b00; // I-Type immout = 20x0 + 000000100101
+	#10 sel = 2'b01; // S-Type immout = 20x0 + 000000100111
+	#10 sel = 2'b10; // B-Type immout = 20x1 + 100000100110
+	#10 sel = 2'b11;
+	#10 $stop;
+	
+end
+
+endmodule
