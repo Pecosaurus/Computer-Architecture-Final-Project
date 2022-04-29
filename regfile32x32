@@ -1,39 +1,66 @@
-module regfile32x32;
-(input clk,
-input write, 
-input [2:0] wrAddr,
-input [31:0] wrData,
-input [2:0] rdAddrA,
-ouput [15:0] rdDataA,
-input [2:0] rdAddrB,
-output [31:0] rdDataB);
+module regfile32x32 (clk, reset, Wr_en, Wr_Addr, Wr_Din, Rd_AddrA, DoutA, Rd_AddrB, DoutB);
 
-reg [15:0] reg0, reg1, reg2, reg3;
+input clk;
+input reset; 
 
-assign rdDataA = rdAddrA == 0 ? reg0;
-					  rdAddrA == 1 ? reg1;
-					  rdAddrA == 2 ? reg2;
-					  rdAddrA == 3 ? reg3; 0;
-assign rdDataB = rdAddrB == 0 ? reg0;
-					  rdAddrB == 1 ? reg1;
-					  rdAddrB == 2 ? reg2;
-					  rdAddrB == 3 ? reg3; 0;
+input Wr_en;
+input [4:0] Wr_Addr;
+input [31:0] Wr_Din;
 
-				always @(posedge clk) begin
-	if (write)
-case (wrAddr)
-0: begin
-reg0 <= wrData;
-end
-1: begin
-reg1 <= wrData;
-end
-2: begin
-reg2 <= wrData;
-end
-3: begin
-reg3 <= wrData;
-end
-endcase
-end
-endmodule	
+input [4:0] Rd_AddrA;
+input [4:0] Rd_AddrB;
+
+output [31:0] DoutA;
+output [31:0] DoutB;
+
+reg [31:0] Reg_32bit [0:31];
+
+wire [31:0] o;
+wire [31:0] i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31;
+
+
+integer i;
+
+Lab3_Decoder_5to32 uut (o, Wr_Addr, Wr_en);
+
+Reg_32bit dut_Reg00 (i0, Wr_Din, o[0], reset, clk);
+Reg_32bit dut_Reg01 (i1, Wr_Din, o[1], reset, clk);
+Reg_32bit dut_Reg02 (i2, Wr_Din, o[2], reset, clk);
+Reg_32bit dut_Reg03 (i3, Wr_Din, o[3], reset, clk);
+Reg_32bit dut_Reg04 (i4, Wr_Din, o[4], reset, clk);
+Reg_32bit dut_Reg05 (i5, Wr_Din, o[5], reset, clk);
+Reg_32bit dut_Reg06 (i6, Wr_Din, o[6], reset, clk);
+Reg_32bit dut_Reg07 (i7, Wr_Din, o[7], reset, clk);
+Reg_32bit dut_Reg08 (i8, Wr_Din, o[8], reset, clk);
+Reg_32bit dut_Reg09 (i9, Wr_Din, o[9], reset, clk);
+
+Reg_32bit dut_Reg10 (i10, Wr_Din, o[10], reset, clk);
+Reg_32bit dut_Reg11 (i11, Wr_Din, o[11], reset, clk);
+Reg_32bit dut_Reg12 (i12, Wr_Din, o[12], reset, clk);
+Reg_32bit dut_Reg13 (i13, Wr_Din, o[13], reset, clk);
+Reg_32bit dut_Reg14 (i14, Wr_Din, o[14], reset, clk);
+Reg_32bit dut_Reg15 (i15, Wr_Din, o[15], reset, clk);
+Reg_32bit dut_Reg16 (i16, Wr_Din, o[16], reset, clk);
+Reg_32bit dut_Reg17 (i17, Wr_Din, o[17], reset, clk);
+Reg_32bit dut_Reg18 (i18, Wr_Din, o[18], reset, clk);
+Reg_32bit dut_Reg19 (i19, Wr_Din, o[19], reset, clk);
+
+Reg_32bit dut_Reg20 (i20, Wr_Din, o[20], reset, clk);
+Reg_32bit dut_Reg21 (i21, Wr_Din, o[21], reset, clk);
+Reg_32bit dut_Reg22 (i22, Wr_Din, o[22], reset, clk);
+Reg_32bit dut_Reg23 (i23, Wr_Din, o[23], reset, clk);
+Reg_32bit dut_Reg24 (i24, Wr_Din, o[24], reset, clk);
+Reg_32bit dut_Reg25 (i25, Wr_Din, o[25], reset, clk);
+Reg_32bit dut_Reg26 (i26, Wr_Din, o[26], reset, clk);
+Reg_32bit dut_Reg27 (i27, Wr_Din, o[27], reset, clk);
+Reg_32bit dut_Reg28 (i28, Wr_Din, o[28], reset, clk);
+Reg_32bit dut_Reg29 (i29, Wr_Din, o[29], reset, clk);
+
+Reg_32bit dut_Reg30 (i30, Wr_Din, o[30], reset, clk);
+Reg_32bit dut_Reg31 (i31, Wr_Din, o[31], reset, clk);
+		
+Mux_32to1 dut_MuxA (DoutA,i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,Rd_AddrA);
+Mux_32to1 dut_MuxB (DoutB,i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,Rd_AddrB);
+			
+
+endmodule 
