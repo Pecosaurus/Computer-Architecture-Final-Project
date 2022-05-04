@@ -1,3 +1,7 @@
+module ROM (addr, IROM_out);
+
+input [31:0] addr;
+
 output reg [31:0] IROM_out;
 
 always @(addr) begin
